@@ -238,11 +238,11 @@ export function ExecutionPage() {
   const isFollowUpOverLimit = followUp.length > PROMPT_DEFAULT_MAX_LENGTH;
   const canSendFollowUp =
     !!followUp.trim() && !isFollowUpOverLimit && !isLoading && !speechInput.isRecording;
-  let tooltipLabel = 'Send';
+  let tooltipLabel = tCommon('buttons.send');
   if (isFollowUpOverLimit) {
-    tooltipLabel = 'Message is too long';
+    tooltipLabel = tCommon('buttons.messageTooLong');
   } else if (!followUp.trim()) {
-    tooltipLabel = 'Enter a message';
+    tooltipLabel = tCommon('buttons.enterMessage');
   }
 
   useEffect(() => {
@@ -783,16 +783,18 @@ export function ExecutionPage() {
                     />
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <button
-                          type="button"
-                          onClick={handleFollowUp}
-                          disabled={!canSendFollowUp}
-                          className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                          title={tCommon('buttons.send')}
-                          aria-label="Send"
-                        >
-                          <ArrowBendDownLeft className="h-4 w-4" />
-                        </button>
+                        <span className="inline-flex">
+                          <button
+                            type="button"
+                            onClick={handleFollowUp}
+                            disabled={!canSendFollowUp}
+                            className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                            title={tCommon('buttons.send')}
+                            aria-label="Send"
+                          >
+                            <ArrowBendDownLeft className="h-4 w-4" />
+                          </button>
+                        </span>
                       </TooltipTrigger>
                       <TooltipContent>
                         <span>{tooltipLabel}</span>

@@ -19,9 +19,8 @@ import ConversationListItem from './ConversationListItem';
 import SettingsDialog from './SettingsDialog';
 import { Gear, ChatText, MagnifyingGlass } from '@phosphor-icons/react';
 import { ChevronDown, Circle, Laptop, Moon, Sun } from 'lucide-react';
+import type { ThemePreference } from '@accomplish_ai/agent-core';
 import logoImage from '/assets/logo-1.png';
-
-type ThemePreference = 'system' | 'light' | 'dark' | 'pure-dark';
 
 const THEME_OPTIONS: Array<{
   value: ThemePreference;
@@ -33,6 +32,14 @@ const THEME_OPTIONS: Array<{
   { value: 'light', label: 'Light', Icon: Sun },
   { value: 'system', label: 'System', Icon: Laptop },
 ];
+
+const normalizeTheme = (value: unknown): ThemePreference => {
+  if (value === 'light' || value === 'dark' || value === 'system' || value === 'pure-dark') {
+    return value;
+  }
+
+  return 'system';
+};
 
 export function Sidebar() {
   const navigate = useNavigate();
@@ -50,20 +57,18 @@ export function Sidebar() {
     if (typeof accomplish.getTheme !== 'function') {
       return;
     }
-    accomplish.getTheme().then((value) => {
-      const nextTheme: ThemePreference =
-        value === 'light' || value === 'dark' || value === 'system' || value === 'pure-dark'
-          ? value
-          : 'system';
-      setThemePreference(nextTheme);
-    });
+    accomplish
+      .getTheme()
+      .then((value) => {
+        setThemePreference(normalizeTheme(value));
+      })
+      .catch((error) => {
+        console.error('Failed to load theme preference', error);
+        setThemePreference('system');
+      });
 
     const unsubscribeThemeChange = accomplish.onThemeChange?.(({ theme }) => {
-      const nextTheme: ThemePreference =
-        theme === 'light' || theme === 'dark' || theme === 'system' || theme === 'pure-dark'
-          ? theme
-          : 'system';
-      setThemePreference(nextTheme);
+      setThemePreference(normalizeTheme(theme));
     });
 
     return () => unsubscribeThemeChange?.();
