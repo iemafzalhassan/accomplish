@@ -217,19 +217,8 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  html.theme-changing,
-  html.theme-changing body,
-  html.theme-changing div,
-  html.theme-changing section,
-  html.theme-changing article,
-  html.theme-changing aside,
-  html.theme-changing main,
-  html.theme-changing nav,
-  html.theme-changing header,
-  html.theme-changing footer,
-  html.theme-changing button,
-  html.theme-changing a,
-  html.theme-changing svg {
+  html.theme-changing
+    :where(body, div, section, article, aside, main, nav, header, footer, button, a, svg) {
     transition-property: background-color, border-color, color, fill, stroke, box-shadow;
     transition-duration: 180ms;
     transition-timing-function: ease;

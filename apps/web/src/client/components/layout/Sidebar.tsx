@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, type ComponentType } from 'react';
 import { useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
@@ -17,15 +17,23 @@ import {
 } from '@/components/ui/dropdown-menu';
 import ConversationListItem from './ConversationListItem';
 import SettingsDialog from './SettingsDialog';
-import { Gear, ChatText, MagnifyingGlass } from '@phosphor-icons/react';
-import { ChevronDown, Circle, Laptop, Moon, Sun } from 'lucide-react';
+import {
+  CaretDown,
+  Circle,
+  Gear,
+  ChatText,
+  Laptop,
+  MagnifyingGlass,
+  Moon,
+  Sun,
+} from '@phosphor-icons/react';
 import type { ThemePreference } from '@accomplish_ai/agent-core';
 import logoImage from '/assets/logo-1.png';
 
 const THEME_OPTIONS: Array<{
   value: ThemePreference;
   label: string;
-  Icon: typeof Sun;
+  Icon: ComponentType<{ className?: string }>;
 }> = [
   { value: 'dark', label: 'Dark', Icon: Moon },
   { value: 'pure-dark', label: 'Pure Dark', Icon: Circle },
@@ -191,7 +199,7 @@ export function Sidebar() {
               >
                 <ActiveThemeIcon className="h-3.5 w-3.5" />
                 <span>{activeThemeOption?.label ?? 'System'}</span>
-                <ChevronDown className="h-3.5 w-3.5 opacity-80" />
+                <CaretDown className="h-3.5 w-3.5 opacity-80" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent side="top" align="center" className="min-w-[140px]">
@@ -225,5 +233,3 @@ export function Sidebar() {
     </>
   );
 }
-
-export default Sidebar;
