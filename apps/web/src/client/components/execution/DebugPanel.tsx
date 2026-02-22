@@ -1,7 +1,15 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Bug, ChevronUp, ChevronDown, Download, Trash2, Check, Search } from 'lucide-react';
+import {
+  Bug,
+  CaretUp,
+  CaretDown,
+  Download,
+  Trash,
+  Check,
+  MagnifyingGlass,
+} from '@phosphor-icons/react';
 import { cn } from '@/lib/utils';
 
 export interface DebugLogEntry {
@@ -171,15 +179,15 @@ export function DebugPanel({ debugLogs, taskId, onClearLogs }: DebugPanelProps) 
                   onClearLogs();
                 }}
               >
-                <Trash2 className="h-3 w-3 mr-1" />
+                <Trash className="h-3 w-3 mr-1" />
                 Clear
               </Button>
             </>
           )}
           {debugPanelOpen ? (
-            <ChevronDown className="h-4 w-4 text-muted-foreground" />
+            <CaretDown className="h-4 w-4 text-muted-foreground" />
           ) : (
-            <ChevronUp className="h-4 w-4 text-muted-foreground" />
+            <CaretUp className="h-4 w-4 text-muted-foreground" />
           )}
         </div>
       </div>
@@ -207,19 +215,19 @@ export function DebugPanel({ debugLogs, taskId, onClearLogs }: DebugPanelProps) 
                       className="p-1 text-muted-foreground hover:text-foreground hover:bg-accent rounded-l border border-border border-r-0"
                       title="Previous match (Shift+Enter)"
                     >
-                      <ChevronUp className="h-3.5 w-3.5" />
+                      <CaretUp className="h-3.5 w-3.5" />
                     </button>
                     <button
                       onClick={goToNextMatch}
                       className="p-1 text-muted-foreground hover:text-foreground hover:bg-accent rounded-r border border-border"
                       title="Next match (Enter)"
                     >
-                      <ChevronDown className="h-3.5 w-3.5" />
+                      <CaretDown className="h-3.5 w-3.5" />
                     </button>
                   </div>
                 )}
                 <div className="relative">
-                  <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
+                  <MagnifyingGlass className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
                   <input
                     ref={debugSearchInputRef}
                     type="text"

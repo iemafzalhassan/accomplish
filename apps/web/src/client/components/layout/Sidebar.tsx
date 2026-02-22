@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { useTaskStore } from '@/stores/taskStore';
 import { getAccomplish } from '@/lib/accomplish';
 import { staggerContainer } from '@/lib/animations';
@@ -15,17 +16,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import ConversationListItem from './ConversationListItem';
-import { SettingsDialog } from './SettingsDialog';
-import {
-  ChevronDown,
-  Circle,
-  Laptop,
-  MessageSquarePlus,
-  Moon,
-  Search,
-  Settings,
-  Sun,
-} from 'lucide-react';
+import SettingsDialog from './SettingsDialog';
+import { Gear, ChatText, MagnifyingGlass } from '@phosphor-icons/react';
+import { ChevronDown, Circle, Laptop, Moon, Sun } from 'lucide-react';
 import logoImage from '/assets/logo-1.png';
 
 type ThemePreference = 'system' | 'light' | 'dark' | 'pure-dark';
@@ -47,6 +40,7 @@ export function Sidebar() {
   const [themePreference, setThemePreference] = useState<ThemePreference>('system');
   const { tasks, loadTasks, updateTaskStatus, addTaskUpdate, openLauncher } = useTaskStore();
   const accomplish = useMemo(() => getAccomplish(), []);
+  const { t } = useTranslation('sidebar');
 
   useEffect(() => {
     loadTasks();
@@ -115,19 +109,19 @@ export function Sidebar() {
             variant="default"
             size="sm"
             className="flex-1 justify-center gap-2"
-            title="New Task"
+            title={t('newTask')}
           >
-            <MessageSquarePlus className="h-4 w-4" />
-            New Task
+            <ChatText className="h-4 w-4" />
+            {t('newTask')}
           </Button>
           <Button
             onClick={openLauncher}
             variant="outline"
             size="sm"
             className="px-2"
-            title="Search Tasks (⌘K)"
+            title={t('searchTasks')}
           >
-            <Search className="h-4 w-4" />
+            <MagnifyingGlass className="h-4 w-4" />
           </Button>
         </div>
 
@@ -143,7 +137,7 @@ export function Sidebar() {
                   exit={{ opacity: 0 }}
                   className="px-3 py-8 text-center text-sm text-muted-foreground"
                 >
-                  No conversations yet
+                  {t('noConversations')}
                 </motion.div>
               ) : (
                 <motion.div
@@ -205,9 +199,9 @@ export function Sidebar() {
             variant="ghost"
             size="icon"
             onClick={() => setShowSettings(true)}
-            title="Settings"
+            title={t('settings')}
           >
-            <Settings className="h-4 w-4" />
+            <Gear className="h-4 w-4" />
           </Button>
         </div>
       </div>
