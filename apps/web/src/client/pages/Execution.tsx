@@ -238,6 +238,12 @@ export function ExecutionPage() {
   const isFollowUpOverLimit = followUp.length > PROMPT_DEFAULT_MAX_LENGTH;
   const canSendFollowUp =
     !!followUp.trim() && !isFollowUpOverLimit && !isLoading && !speechInput.isRecording;
+  let tooltipLabel = 'Send';
+  if (isFollowUpOverLimit) {
+    tooltipLabel = 'Message is too long';
+  } else if (!followUp.trim()) {
+    tooltipLabel = 'Enter a message';
+  }
 
   useEffect(() => {
     if (canFollowUp) {
@@ -246,7 +252,9 @@ export function ExecutionPage() {
   }, [canFollowUp]);
 
   const handleFollowUp = useCallback(async () => {
-    if (!followUp.trim() || isFollowUpOverLimit) return;
+    if (!followUp.trim() || isFollowUpOverLimit) {
+      return;
+    }
     const isE2EMode = await accomplish.isE2EMode();
     if (!isE2EMode) {
       const settings = await accomplish.getProviderSettings();
@@ -787,13 +795,7 @@ export function ExecutionPage() {
                         </button>
                       </TooltipTrigger>
                       <TooltipContent>
-                        <span>
-                          {isFollowUpOverLimit
-                            ? 'Message is too long'
-                            : !followUp.trim()
-                              ? 'Enter a message'
-                              : 'Send'}
-                        </span>
+                        <span>{tooltipLabel}</span>
                       </TooltipContent>
                     </Tooltip>
                   </div>

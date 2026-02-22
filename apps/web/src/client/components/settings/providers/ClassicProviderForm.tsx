@@ -83,7 +83,9 @@ export function ClassicProviderForm({
     if (!providerConfig?.modelsEndpoint) return;
 
     const accomplish = getAccomplish();
-    if (typeof accomplish.fetchProviderModels !== 'function') return;
+    if (typeof accomplish.fetchProviderModels !== 'function') {
+      return;
+    }
 
     accomplish
       .fetchProviderModels(providerId, {

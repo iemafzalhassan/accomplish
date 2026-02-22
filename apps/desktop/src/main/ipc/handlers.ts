@@ -952,14 +952,14 @@ export function registerIPCHandlers(): void {
     nativeTheme.themeSource =
       theme === 'pure-dark' ? 'dark' : (theme as 'system' | 'light' | 'dark');
 
-    const resolved =
-      theme === 'system'
-        ? nativeTheme.shouldUseDarkColors
-          ? 'dark'
-          : 'light'
-        : theme === 'pure-dark'
-          ? 'dark'
-          : theme;
+    let resolved: 'light' | 'dark';
+    if (theme === 'system') {
+      resolved = nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
+    } else if (theme === 'pure-dark') {
+      resolved = 'dark';
+    } else {
+      resolved = theme;
+    }
 
     for (const win of BrowserWindow.getAllWindows()) {
       win.webContents.send('settings:theme-changed', { theme, resolved });

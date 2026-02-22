@@ -47,7 +47,9 @@ export function Sidebar() {
   }, [loadTasks]);
 
   useEffect(() => {
-    if (typeof accomplish.getTheme !== 'function') return;
+    if (typeof accomplish.getTheme !== 'function') {
+      return;
+    }
     accomplish.getTheme().then((value) => {
       const nextTheme: ThemePreference =
         value === 'light' || value === 'dark' || value === 'system' || value === 'pure-dark'
@@ -65,7 +67,7 @@ export function Sidebar() {
     });
 
     return () => unsubscribeThemeChange?.();
-  }, []);
+  }, [accomplish]);
 
   // Subscribe to task status changes (queued -> running) and task updates (complete/error)
   // This ensures sidebar always reflects current task status
@@ -82,7 +84,7 @@ export function Sidebar() {
       unsubscribeStatusChange?.();
       unsubscribeTaskUpdate();
     };
-  }, [updateTaskStatus, addTaskUpdate]);
+  }, [accomplish, updateTaskStatus, addTaskUpdate]);
 
   const handleNewConversation = () => {
     navigate('/');
@@ -156,7 +158,6 @@ export function Sidebar() {
           </div>
         </ScrollArea>
 
-        {/* Bottom Section - Logo, Theme, and Settings */}
         <div className="px-3 py-4 border-t border-border flex items-center justify-between">
           {/* Logo - Bottom Left */}
           <div className="flex items-center">
